@@ -1,0 +1,15 @@
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "services/*"
+  ],
+  "scripts": {
+  "start": "concurrently \"npm start --prefix services/product-services\" \"npm start --prefix services/gateway-services\""
+},
+  "devDependencies": {
+    "concurrently": "^9.1.0",
+    "lerna": "^8.1.9"
+  }
+}
