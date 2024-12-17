@@ -6,7 +6,7 @@
     "services/*"
   ],
   "scripts": {
-  "start": "concurrently \"npm start --prefix services/product-services\" \"npm start --prefix services/gateway-services\""
+  "start": "concurrently \"npm start --prefix services/product-services\" \"npm start --prefix services/gateway-services\" \"npm start --prefix services/order-services\""
 },
   "devDependencies": {
     "concurrently": "^9.1.0",

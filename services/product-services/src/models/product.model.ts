@@ -1,4 +1,5 @@
-import {Entity, model, property} from '@loopback/repository';
+import {Entity, model, property, hasMany} from '@loopback/repository';
+import {Order} from 'shared';
 
 @model()
 export class Product extends Entity {
@@ -27,6 +28,8 @@ export class Product extends Entity {
   })
   stock?: number;
 
+  @hasMany(() => Order, {keyTo:'productId'})
+  orders: Order[];
 
   constructor(data?: Partial<Product>) {
     super(data);
