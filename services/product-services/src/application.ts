@@ -9,6 +9,7 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {DbDataSource} from 'shared';
 
 export {ApplicationConfig};
 
@@ -18,6 +19,7 @@ export class ProductServicesApplication extends BootMixin(
   constructor(options: ApplicationConfig = {}) {
     super(options);
 
+    this.bind('datasources.db').toClass(DbDataSource);
     // Set up the custom sequence
     this.sequence(MySequence);
 

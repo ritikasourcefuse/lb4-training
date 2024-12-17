@@ -8,7 +8,7 @@ export class GatewayController {
   
   @get('/products')
   async getProducts() {
-    const response = await axios.get('http://127.0.0.1:3000/products');
+    const response = await axios.get('http://127.0.0.1:3001/products');
     
     return response.data;
   }
