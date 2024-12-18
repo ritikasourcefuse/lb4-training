@@ -38,4 +38,20 @@ export class GatewayController {
       throw new Error('Unable to fetch combined product and order data');
     }
   }
+  @get('/dashboard')
+  async getDashboard() {
+    const productResponse = await axios.get('http://127.0.0.1:3000/products');
+    const orderResponse = await axios.get('http://127.0.0.1:3001/orders');
+    const userResponse = await axios.get('http://127.0.0.1:3002/users');
+
+    const products = productResponse.data;
+    const orders = orderResponse.data;
+    const users = userResponse.data;
+
+    return {
+      products,
+      orders,
+      users,
+    };
+  }
 }

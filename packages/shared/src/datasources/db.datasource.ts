@@ -2,11 +2,15 @@ import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 import path from 'path';
 
+
 const config = {
   name: 'db',
-  connector: 'memory',
-  localStorage: '',
-  file:path.resolve(__dirname, '../../public/data/db.json')
+  connector: 'postgresql',
+  host: 'localhost',
+  port: 5432, 
+  user: 'postgres', 
+  password: 'password',
+  database: 'lbdb',
 };
 
 // Observe application's life cycle to disconnect the datasource when

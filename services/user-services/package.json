@@ -1,7 +1,7 @@
 {
-  "name": "shared",
+  "name": "user-services",
   "version": "0.0.1",
-  "description": "shared",
+  "description": "user-services",
   "keywords": [
     "loopback-application",
     "loopback"
@@ -25,8 +25,8 @@
     "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
     "posttest": "npm run lint",
     "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
-    "docker:build": "docker build -t shared .",
-    "docker:run": "docker run -p 3000:3000 -d shared",
+    "docker:build": "docker build -t user-services .",
+    "docker:run": "docker run -p 3000:3000 -d user-services",
     "premigrate": "npm run build",
     "migrate": "node ./dist/migrate",
     "preopenapi-spec": "npm run build",
@@ -55,19 +55,15 @@
     "@loopback/rest": "^14.0.9",
     "@loopback/rest-explorer": "^7.0.9",
     "@loopback/service-proxy": "^7.0.9",
-    "loopback-connector-postgresql": "^7.1.8",
-    "shared": "*",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@loopback/build": "^11.0.8",
-    "@loopback/eslint-config": "^15.0.4",
+    "source-map-support": "^0.5.21",
     "@loopback/testlab": "^7.0.8",
     "@types/node": "^16.18.119",
-    "db-migrate": "^0.11.14",
-    "db-migrate-pg": "^1.5.2",
+    "@loopback/eslint-config": "^15.0.4",
     "eslint": "^8.57.0",
-    "source-map-support": "^0.5.21",
     "typescript": "~5.2.2"
   }
 }

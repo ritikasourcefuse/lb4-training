@@ -6,11 +6,17 @@ export async function migrate(args: string[]) {
 
   const app = new ProductServicesApplication();
   await app.boot();
+
+  // Debug: Inspect data sources and models
+  const dataSources = app.find('datasources.*');
+  console.log('Registered datasources:', dataSources.map(ds => ds.key));
+
+  const models = app.find('models.*');
+  console.log('Registered models:', models.map(m => m.key));
+
   await app.migrateSchema({existingSchema});
 
-  // Connectors usually keep a pool of opened connections,
-  // this keeps the process running even after all work is done.
-  // We need to exit explicitly.
+  console.log('Migration completed.');
   process.exit(0);
 }
 

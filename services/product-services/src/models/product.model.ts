@@ -1,7 +1,9 @@
 import {Entity, model, property, hasMany} from '@loopback/repository';
 import {Order} from 'shared';
 
-@model()
+@model({
+  name: 'product'
+})
 export class Product extends Entity {
   @property({
     type: 'string',
