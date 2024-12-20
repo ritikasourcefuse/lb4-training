@@ -6,10 +6,14 @@
     "services/*"
   ],
   "scripts": {
-  "start": "concurrently \"npm start --prefix services/product-services\" \"npm start --prefix services/gateway-services\" \"npm start --prefix services/order-services\""
-},
+    "start": "concurrently \"npm start --prefix services/product-services\" \"npm start --prefix services/gateway-services\" \"npm start --prefix services/order-services\""
+  },
   "devDependencies": {
     "concurrently": "^9.1.0",
     "lerna": "^8.1.9"
+  },
+  "dependencies": {
+    "db-migrate": "^0.11.14",
+    "pg": "^8.13.1"
   }
 }

@@ -1,4 +1,5 @@
 import {Entity, model, property} from '@loopback/repository';
+import {TimeStampEntity} from 'shared';
 
 export enum UserRole {
   SuperAdmin = 'SuperAdmin',
@@ -7,7 +8,7 @@ export enum UserRole {
 }
 
 @model()
-export class User extends Entity {
+export class User extends Entity implements TimeStampEntity {
   @property({
     type: 'string',
     id: true,

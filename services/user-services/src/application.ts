@@ -9,6 +9,7 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {DbDataSource} from 'shared';
 
 export {ApplicationConfig};
 
@@ -20,7 +21,7 @@ export class UserServicesApplication extends BootMixin(
 
     // Set up the custom sequence
     this.sequence(MySequence);
-
+    this.bind('datasources.db').toClass(DbDataSource);
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
 
