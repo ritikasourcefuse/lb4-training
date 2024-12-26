@@ -48,7 +48,12 @@ export class MySequence implements SequenceHandler {
   async handle(context: RequestContext): Promise<void> {
     try {
       const {request, response} = context;
-
+      const origin = request.headers.origin || '';
+      const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+      if (allowedOrigins.length > 0 && !allowedOrigins.includes(origin)) {
+        response.status(403).send({error: 'Origin not allowed'});
+        return;
+      }
       // Find the appropriate route
       const route = this.findRoute(request);
 

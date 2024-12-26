@@ -1,8 +1,11 @@
 import {ApplicationConfig, ProductServicesApplication} from './application';
 
 export * from './application';
+import * as dotenv from 'dotenv';
 
 export async function main(options: ApplicationConfig = {}) {
+  dotenv.config();
+
   const app = new ProductServicesApplication(options);
   await app.boot();
   await app.start();

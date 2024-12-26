@@ -12,6 +12,7 @@ import {MySequence} from './sequence';
 import {
   AuthorizationBindings,
   JWTService,
+  LoggingInterceptor,
   RoleBasedAuthorizerProvider,
   TokenServiceBindings,
 } from 'shared';
@@ -26,7 +27,7 @@ export class GatewayServicesApplication extends BootMixin(
 
     // Set up the custom sequence
     this.sequence(MySequence);
-
+    this.interceptor(LoggingInterceptor);
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
 
@@ -46,6 +47,9 @@ export class GatewayServicesApplication extends BootMixin(
     this.bind(AuthorizationBindings.PROVIDER).toClass(
       RoleBasedAuthorizerProvider,
     );
+
+    console.log('LoggingInterceptor registered');
+
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {

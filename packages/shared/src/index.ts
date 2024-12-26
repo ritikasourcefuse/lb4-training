@@ -6,6 +6,7 @@ export * from './models/order.model';
 export * from './repositories/base.respository';
 export * from './auth';
 export * from './providers';
+export * from './interceptors/logging.interceptor';
 
 export async function main(options: ApplicationConfig = {}) {
   const app = new SharedApplication(options);
@@ -23,7 +24,7 @@ if (require.main === module) {
   // Run the application
   const config = {
     rest: {
-      port: +(process.env.PORT ?? 3000),
+      port: +(process.env.PORT ?? 5000),
       host: process.env.HOST || '127.0.0.1',
       // The `gracePeriodForClose` provides a graceful close for http/https
       // servers with keep-alive clients. The default value is `Infinity`
