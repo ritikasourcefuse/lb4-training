@@ -4,6 +4,8 @@ export * from './application';
 export * from './datasources/db.datasource';
 export * from './models/order.model';
 export * from './repositories/base.respository';
+export * from './auth';
+export * from './providers';
 
 export async function main(options: ApplicationConfig = {}) {
   const app = new SharedApplication(options);

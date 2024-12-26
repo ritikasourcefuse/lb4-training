@@ -3,9 +3,12 @@ import {
   CountSchema,
   Filter,
   FilterExcludingWhere,
+  model,
+  property,
   repository,
   Where,
 } from '@loopback/repository';
+
 import {
   post,
   param,
@@ -16,16 +19,89 @@ import {
   del,
   requestBody,
   response,
+  SchemaObject,
 } from '@loopback/rest';
+
 import {Product} from '../models';
 import {ProductRepository} from '../repositories';
+import {authorize} from '@loopback/authorization';
+import {
+  authenticate,
+  TokenService,
+  UserService,
+} from '@loopback/authentication';
+import {inject} from '@loopback/core';
+import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
+import {
+  TokenServiceBindings,
+  MyUserService,
+  UserServiceBindings,
+  UserRepository,
+  Credentials,
+  User,
+} from '@loopback/authentication-jwt';
+import {genSalt, hash} from 'bcryptjs';
+import {JWTService} from 'shared';
+
+@model()
+export class NewUserRequest extends User {
+  @property({
+    type: 'string',
+    required: true,
+  })
+  password: string;
+}
+// Describe the schema of user credentials
+const CredentialsSchema: SchemaObject = {
+  type: 'object',
+  required: ['email', 'password'],
+  properties: {
+    email: {
+      type: 'string',
+      format: 'email',
+    },
+    password: {
+      type: 'string',
+      minLength: 8,
+    },
+  },
+};
+export const CredentialsRequestBody = {
+  description: 'The input of login function',
+  required: true,
+  content: {
+    'application/json': {schema: CredentialsSchema},
+  },
+};
 
 export class ProductController {
   constructor(
+    @inject('services.JWTService') private jwtService: JWTService,
+    // @inject('services.JWTService') private jwtService: JWTService, // Inject the shared JWTService
     @repository(ProductRepository)
-    public productRepository : ProductRepository,
+    public productRepository: ProductRepository,
+    @inject(SecurityBindings.USER)
+    private userProfile: UserProfile,
   ) {}
 
+  @authenticate('jwt')
+  @get('/whoami', {
+    responses: {
+      '200': {
+        description: '',
+        schema: {
+          type: 'string',
+        },
+      },
+    },
+  })
+  async whoAmI(): Promise<string> {
+    return this.userProfile[securityId];
+  }
+
+  @authorize({
+    allowedRoles: ['Admin', 'SuperAdmin'],
+  })
   @post('/products')
   @response(200, {
     description: 'Product model instance',
@@ -52,12 +128,14 @@ export class ProductController {
     description: 'Product model count',
     content: {'application/json': {schema: CountSchema}},
   })
-  async count(
-    @param.where(Product) where?: Where<Product>,
-  ): Promise<Count> {
+  async count(@param.where(Product) where?: Where<Product>): Promise<Count> {
     return this.productRepository.count(where);
   }
 
+  @authenticate('jwt')
+  @authorize({
+    allowedRoles: ['Admin'],
+  })
   @get('/products')
   @response(200, {
     description: 'Array of Product model instances',
@@ -73,6 +151,7 @@ export class ProductController {
   async find(
     @param.filter(Product) filter?: Filter<Product>,
   ): Promise<Product[]> {
+    console.log('producttttt....');
     return this.productRepository.find(filter);
   }
 
@@ -106,7 +185,8 @@ export class ProductController {
   })
   async findById(
     @param.path.string('id') id: string,
-    @param.filter(Product, {exclude: 'where'}) filter?: FilterExcludingWhere<Product>
+    @param.filter(Product, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Product>,
   ): Promise<Product> {
     return this.productRepository.findById(id, filter);
   }

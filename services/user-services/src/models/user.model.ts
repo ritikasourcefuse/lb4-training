@@ -1,19 +1,13 @@
 import {Entity, model, property} from '@loopback/repository';
-import {TimeStampEntity} from 'shared';
 
-export enum UserRole {
-  SuperAdmin = 'SuperAdmin',
-  Admin = 'Admin',
-  Subscriber = 'Subscriber',
-}
-
-@model()
-export class User extends Entity implements TimeStampEntity {
+@model({
+  name: 'users',
+})
+export class User extends Entity {
   @property({
     type: 'string',
     id: true,
-    generated: false,
-    required: true,
+    generated: true,
   })
   id: string;
 
@@ -21,32 +15,34 @@ export class User extends Entity implements TimeStampEntity {
     type: 'string',
     required: true,
   })
-  name: string;
+  email: string;
 
   @property({
     type: 'string',
     required: true,
-    jsonSchema: {
-      enum: Object.values(UserRole),
-    },
   })
-  role: UserRole;
+  password: string;
 
   @property({
-    type: 'date',
-    required: true,
+    type: 'string',
+    default: 'Subscriber', // Default role is "Subscriber"
+    jsonSchema: {
+      enum: ['SuperAdmin', 'Admin', 'Subscriber'], // Allowed roles
+    },
+  })
+  role: string;
+
+  @property({
+    type: 'string',
+    default: () => new Date().toISOString(), // Use ISO string
   })
   createdOn: string;
 
   @property({
-    type: 'date',
-    required: true,
+    type: 'string',
+    default: () => new Date().toISOString(), // Use ISO string
   })
   modifiedOn: string;
-
-  constructor(data?: Partial<User>) {
-    super(data);
-  }
 }
 
 export interface UserRelations {

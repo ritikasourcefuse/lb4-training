@@ -9,6 +9,12 @@ import {RestApplication} from '@loopback/rest';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
 import {MySequence} from './sequence';
+import {
+  AuthorizationBindings,
+  JWTService,
+  RoleBasedAuthorizerProvider,
+  TokenServiceBindings,
+} from 'shared';
 
 export {ApplicationConfig};
 
@@ -29,7 +35,17 @@ export class GatewayServicesApplication extends BootMixin(
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
+    this.bind(AuthorizationBindings.PROVIDER).toProvider(
+      RoleBasedAuthorizerProvider,
+    );
+    this.bind(TokenServiceBindings.SECRET).to('myjwtsecret');
+    this.bind(TokenServiceBindings.EXPIRES_IN).to('3600'); // 1 hour
+    this.bind(TokenServiceBindings.SERVICE).toClass(JWTService);
 
+    // Bind Authorization Provider
+    this.bind(AuthorizationBindings.PROVIDER).toClass(
+      RoleBasedAuthorizerProvider,
+    );
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {

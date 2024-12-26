@@ -6,6 +6,7 @@ import {inject} from '@loopback/core';
 import {get, param} from '@loopback/rest';
 import {OrderRepository} from '../repositories';
 import {Order} from 'shared';
+import {authorize} from '@loopback/authorization';
 
 export class OrderController {
   constructor(
@@ -13,6 +14,9 @@ export class OrderController {
     public orderRepository: OrderRepository,
   ) {}
 
+  @authorize({
+    allowedRoles: ['Subscriber', 'Admin', 'SuperAdmin'], // All roles can place orders
+  })
   @get('/orders')
   async findOrders(): Promise<Order[]> {
     return this.orderRepository.find();
@@ -24,7 +28,9 @@ export class OrderController {
   }
 
   @get('/orders/product/{productId}')
-  async findOrdersByProduct(@param.path.string('productId') productId: string): Promise<Order[]> {
+  async findOrdersByProduct(
+    @param.path.string('productId') productId: string,
+  ): Promise<Order[]> {
     return this.orderRepository.find({
       where: {productId},
     });
