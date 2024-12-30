@@ -1,9 +1,10 @@
 import {inject} from '@loopback/core';
+import {DefaultCrudRepository} from '@loopback/repository';
+import {DbDataSource} from '../datasources';
 import {User, UserRelations} from '../models/user.model';
-import {BaseRepository, TimeStampEntity, DbDataSource} from 'shared';
 
-export class UserRepository extends BaseRepository<
-  User & TimeStampEntity,
+export class UserRepository extends DefaultCrudRepository<
+  User,
   typeof User.prototype.id,
   UserRelations
 > {

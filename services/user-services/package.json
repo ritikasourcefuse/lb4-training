@@ -49,21 +49,29 @@
     "!*/__tests__"
   ],
   "dependencies": {
+    "@loopback/authorization": "^0.15.9",
     "@loopback/boot": "^7.0.9",
     "@loopback/core": "^6.1.6",
     "@loopback/repository": "^7.0.9",
     "@loopback/rest": "^14.0.9",
     "@loopback/rest-explorer": "^7.0.9",
+    "@loopback/security": "^0.11.9",
     "@loopback/service-proxy": "^7.0.9",
+    "@types/passport-google-oauth20": "^2.0.16",
+    "loopback-connector-postgresql": "^7.1.8",
+    "loopback4-authentication": "^12.1.1",
+    "loopback4-authorization": "^7.0.3",
+    "loopback4-soft-delete": "^10.0.3",
+    "passport-google-oauth20": "^2.0.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@loopback/build": "^11.0.8",
-    "source-map-support": "^0.5.21",
+    "@loopback/eslint-config": "^15.0.4",
     "@loopback/testlab": "^7.0.8",
     "@types/node": "^16.18.119",
-    "@loopback/eslint-config": "^15.0.4",
     "eslint": "^8.57.0",
+    "source-map-support": "^0.5.21",
     "typescript": "~5.2.2"
   }
 }
