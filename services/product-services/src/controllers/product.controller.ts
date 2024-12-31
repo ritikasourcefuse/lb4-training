@@ -24,33 +24,17 @@ import {
 
 import {Product} from '../models';
 import {ProductRepository} from '../repositories';
-import {authorize} from '@loopback/authorization';
-import {
-  authenticate,
-  TokenService,
-  UserService,
-} from '@loopback/authentication';
-import {inject} from '@loopback/core';
-import {SecurityBindings, securityId, UserProfile} from '@loopback/security';
-import {
-  TokenServiceBindings,
-  MyUserService,
-  UserServiceBindings,
-  UserRepository,
-  Credentials,
-  User,
-} from '@loopback/authentication-jwt';
-import {genSalt, hash} from 'bcryptjs';
-import {JWTService} from 'shared';
 
-@model()
-export class NewUserRequest extends User {
-  @property({
-    type: 'string',
-    required: true,
-  })
-  password: string;
-}
+import {inject} from '@loopback/core';
+
+// @model()
+// export class NewUserRequest extends User {
+//   @property({
+//     type: 'string',
+//     required: true,
+//   })
+//   password: string;
+// }
 // Describe the schema of user credentials
 const CredentialsSchema: SchemaObject = {
   type: 'object',
@@ -76,32 +60,32 @@ export const CredentialsRequestBody = {
 
 export class ProductController {
   constructor(
-    @inject('services.JWTService') private jwtService: JWTService,
+    // @inject('services.JWTService') private jwtService: JWTService,
     // @inject('services.JWTService') private jwtService: JWTService, // Inject the shared JWTService
     @repository(ProductRepository)
     public productRepository: ProductRepository,
-    @inject(SecurityBindings.USER)
-    private userProfile: UserProfile,
+    // @inject(SecurityBindings.USER)
+    // private userProfile: UserProfile,
   ) {}
 
-  @authenticate('jwt')
-  @get('/whoami', {
-    responses: {
-      '200': {
-        description: '',
-        schema: {
-          type: 'string',
-        },
-      },
-    },
-  })
-  async whoAmI(): Promise<string> {
-    return this.userProfile[securityId];
-  }
+  // @authenticate('jwt')
+  // @get('/whoami', {
+  //   responses: {
+  //     '200': {
+  //       description: '',
+  //       schema: {
+  //         type: 'string',
+  //       },
+  //     },
+  //   },
+  // })
+  // async whoAmI(): Promise<string> {
+  //   return this.userProfile[securityId];
+  // }
 
-  @authorize({
-    allowedRoles: ['Admin', 'SuperAdmin'],
-  })
+  // @authorize({
+  //   allowedRoles: ['Admin', 'SuperAdmin'],
+  // })
   @post('/products')
   @response(200, {
     description: 'Product model instance',
@@ -132,10 +116,10 @@ export class ProductController {
     return this.productRepository.count(where);
   }
 
-  @authenticate('jwt')
-  @authorize({
-    allowedRoles: ['Admin'],
-  })
+  // @authenticate('jwt')
+  // @authorize({
+  //   allowedRoles: ['Admin'],
+  // })
   @get('/products')
   @response(200, {
     description: 'Array of Product model instances',

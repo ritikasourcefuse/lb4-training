@@ -4,14 +4,14 @@
 
 import axios from 'axios';
 import {get} from '@loopback/rest';
-import {authenticate} from '@loopback/authentication';
-import {authorize} from '@loopback/authorization';
+// import {authenticate} from '@loopback/authentication';
+// import {authorize} from '@loopback/authorization';
 
 export class GatewayController {
-  @authenticate('jwt')
-  @authorize({
-    allowedRoles: ['Admin'],
-  })
+  // @authenticate('jwt')
+  // @authorize({
+  //   allowedRoles: ['Admin'],
+  // })
   @get('/products')
   async getProducts() {
     const response = await axios.get('http://127.0.0.1:3001/products');
