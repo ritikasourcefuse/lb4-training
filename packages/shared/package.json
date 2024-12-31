@@ -54,6 +54,7 @@
     "@loopback/repository": "^7.0.9",
     "@loopback/rest": "^14.0.9",
     "@loopback/rest-explorer": "^7.0.9",
+    "@loopback/security": "^0.11.9",
     "@loopback/service-proxy": "^7.0.9",
     "loopback-connector-postgresql": "^7.1.8",
     "shared": "*",
